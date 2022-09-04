@@ -1,0 +1,320 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 30/03/2016 - SESTA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Integrali dipendenti da parametro}
+%%%%%%%%%%%%%
+%CONTINUITA'%
+%%%%%%%%%%%%%
+\section{Continuità}
+
+\begin{defn}{Integrale dipendente da parametro}{integraleParametro}\index{Integrale!dipendente da parametro}
+	Sia \(f\colon \R^n \times \R^m \to \R,(x,y)\mapsto f(x,y)\), definiamo \emph{integrale dipendente dal parametro \(y\)} la funzione
+	\[
+		g\colon \R^m \to \R, y \mapsto \int\limits_{A(y)} f(x,y)\,\dd x.
+	\]
+\end{defn}
+
+\begin{teor}{Continuità sotto segno di integrale}{continuitàIntegrale}
+	Siano \(K\subseteq \R^n\) un compatto P-J misurabile e \(\Omega \subseteq \R^m\) aperto.
+	Sia \(f\in C(K\times \Omega, \R)\), allora
+	\[
+		g\colon \Omega \to \R, y \mapsto \int\limits_K f(x,y)\,\dd x,
+	\]
+	è continua su \(\Omega\).
+\end{teor}
+
+\begin{proof}
+	Sia \(y_0\in \Omega\), dobbiamo mostrare che \(g\) è continua in \(y_0\).
+	Dal momento che \(\Omega\) è aperto posso prendere \(r>0\) tale che \(\overline{B_r(y_0)}\subseteq \Omega\).
+	Allora \(f\colon K\times \overline{B_r(y_0)}\to \R\) è uniformemente continua, in quanto \(f\) è continua e \(K\times \overline{B_r(y_0)}\) è compatto.\graffito{il prodotto di compatti è compatto per il teorema di Tychonoff}
+	Quindi, sfruttando una proprietà più debole dell'uniforme continuità, avremo
+	\[
+		\fa\e>0\,\ex\d>0 : \abs*{(x,y)-(x,y_0)}<\d \implies \abs*{f(x,y)-f(x,y_0)}<\e,\,\fa x\in K,y \in \overline{B_r(y_0)}.
+	\]
+	Da cui
+	\[
+		\begin{split}
+			\abs*{g(y)-g(y_0)} & = \abs*{\int\limits_K f(x,y)\,\dd x-\int\limits_K f(x,y_0)\,\dd x}\\
+			& \le \int\limits_K \abs*{f(x,y)-f(x,y_0)}\,\dd x\\
+			& \le \int\limits_K \e\,\dd x \qquad\text{quando }d(y,y_0)\le\d,
+		\end{split}
+	\]
+	quindi \(\abs*{g(y)-g(y_0)}\le \e\abs{K}\), ovvero \(g\) è continua.
+\end{proof}
+
+\begin{teor}{Continuità sotto segno di integrale (caso generale)}{continuitàIntegraleGenerale}
+	Siano \(A \subseteq \R^n\), anche non limitato, P-J misurabile e \(\Omega \subseteq \R^m\) aperto.
+	Sia \(f\in C(A\times \Omega, \R)\) e supponiamo che
+	\[
+		\abs*{f(x,y)} \le h(x),\,\fa x\in A,y \in \Omega,
+	\]
+	con \(h\colon A \to [0,+\infty)\) integrabile.
+	Allora
+	\[
+		g\colon \Omega \to \R, y \mapsto \int\limits_A f(x,y)\,\dd x,
+	\]
+	è continua su \(\Omega\).
+\end{teor}
+
+\begin{proof}
+	Dalla definizione di integrale improprio tramite estremo superiore sui compatti P-J misurabile, trovo \(K\subset A\) compatto e P-J misurabile tale che
+	\[
+		\int\limits_K h(x) \ge \int\limits_A h(x)\,\dd x - \frac{\e}{4},
+	\]
+	da cui
+	\[
+		\int\limits_{A\setminus K}h(x)\,\dd x = \int\limits_A h(x)\,\dd x - \int\limits_K h(x)\,\dd x \le \frac{\e}{4}.
+	\]
+	Sia \(y_0\in \Omega\), andiamo a mostrare la continuità di \(g\) in \(y_0\):
+	\[
+		\begin{split}
+			\abs*{g(y)-g(y_0)} & = \abs*{\int\limits_A \big[f(x,y)-f(x,y_0)\big]\,\dd x}\\
+			& \le \int\limits_A \abs*{f(x,y)-f(x,y_0)}\,\dd x\\
+			& = \int\limits_K \abs*{f(x,y)-f(x,y_0)}\,\dd x + \int\limits_{A\setminus K}\abs*{f(x,y)-f(x,y_0)}\,\dd x.
+		\end{split}
+	\]
+	Dove
+	\[
+		\int\limits_K \abs*{f(x,y)-f(x,y_0)}\,\dd x \le \frac{\e}{2}
+	\]
+	per il teorema precedente quando \(d(y,y_0)\le \d\).
+	Mentre
+	\[
+		\begin{split}
+			\int\limits_{A\setminus K}\abs*{f(x,y)-f(x,y_0)}\,\dd x & \le \int\limits_{A\setminus K}\abs*{f(x,y)}\,\dd x + \int\limits_{A\setminus K}\abs*{f(x,y_0)}\,\dd x\\
+			& \le 2\int\limits_{A\setminus K}h(x)\,\dd x \le \frac{\e}{2}.
+		\end{split}
+	\]
+	Ovvero
+	\[
+		\fa \e >0 \,\ex \d >0 : d(y,y_0)\le \d \implies \abs*{g(y)-g(y_0)} \le \e,
+	\]
+	quindi \(g\) è continua.
+\end{proof}
+
+\begin{oss}
+	Se \(A\) fosse compatto, il maggiorante sarebbe il \(\sup f\).
+\end{oss}
+
+\begin{ese}[Integrale di Fresnel]
+	Vogliamo calcolare
+	\[
+		\int_0^{+\infty} \frac{\sin x}{x}\,\dd x \overset{df}{=} \lim_{R\to +\infty} \int_0^R \frac{\sin x}{x}\,\dd x.
+	\]
+	Definiamo
+	\[
+		g(t) = \int_0^{+\infty} e^{-t\,x} \frac{\sin x}{x}\,\dd x.
+	\]
+	La strategia è trovare \(g(t)\) per \(t>0\), in tal caso avremo
+	\[
+		g(0) = \int_0^{+\infty} \frac{\sin x}{x}.
+	\]
+	Il problema è verificare la continuità in \(0\).
+	Per farlo dobbiamo dimostrare che \(g\colon (0,+\infty)\to \R\) è continua tramite il teorema di continuità sotto segno di integrale (nel caso generale).
+	Controlliamone le ipotesi:
+	\begin{itemize}
+		\item \(\displaystyle f\colon (0,+\infty)\times (0,+\infty) \to \R, (x,t)\mapsto e^{-t\,x}\frac{\sin x}{x}\) è banalmente continua.
+		\item Nell'intorno di \(t_0>0\) trovo un maggiorante di \(f\) che sia integrabile e che non dipenda da \(t\)
+		      \[
+			      \abs*{e^{-t\,x} \frac{\sin x}{x}} \le e^{-\frac{t_0}{2}x} \qquad\text{per }t\in \left[ \frac{t_0}{2},+\infty \right),
+		      \]
+		      in quanto \(e^{-t\,x}\) è una funzione monotona decrescente e il rapporto \(\frac{\sin x}{x}\) si mantiene limitato al crescere di \(x\).
+	\end{itemize}
+	Abbiamo quindi dimostrato la continuità per \(t_0>0\), resta da verificare la continuità in \(0\).
+	Affermo che
+	\[
+		\lim_{t\to 0} g(t) = \int_0^{+\infty} \frac{\sin x}{x}\,\dd x,
+	\]
+	infatti
+	\[
+		\begin{split}
+			g(t) & = \int_0^{+\infty} e^{t\,x} \frac{\sin x}{x}\,\dd x = \lim_{R\to +\infty} \int_0^R e^{-t\,x} \frac{\sin x}{x}\,\dd x\graffito{integro \(\sin x\) per parti prendendo \(1\) come costante additiva}\\
+			& = \lim_{R\to +\infty} \left[ \left.\frac{e^{-t\,x}}{x} (1-\cos x)\right|_0^R + \int_0^R \frac{x\,t+1}{x^2}e^{-t\,x}(1-\cos x)\,\dd x \right]\\
+			& = \lim_{R\to +\infty} \int_0^R \frac{x\,t+1}{x^2}e^{-t\,x}(1-\cos x)\,\dd x = \int_0^{+\infty} \frac{x\,t+1}{x^2}e^{-t\,x}(1-\cos x)\,\dd x.
+		\end{split}
+	\]
+	Ora
+	\[
+		(x,t) \mapsto \frac{x\,t +1}{x^2}e^{-t\,x}(1-\cos x),
+	\]
+	è continua su \((0,+\infty)\times (0,+\infty)\) in quanto
+	\[
+		\frac{x\,t +1}{x^2}e^{-t\,x}(1-\cos x) = e^{-t\,x}(x\,t+1) \frac{1-\cos x}{x^2} \to \frac{1}{2}.
+	\]
+	Cerchiamo il maggiorante integrabile per
+	\[
+		\abs*{\frac{x\,t+1}{x^2}e^{-t\,x}(1-\cos x)}.
+	\]
+	Consideriamo \(l(z)=(z+1)e^{-z}\), dal momento che \(l\) è continua e \(l(+\infty)=0\), per Weierstrass generalizzato esiste un massimo, ovvero \(\abs*{l(z)}\le M\).
+	Quindi
+	\[
+		\abs*{\frac{x\,t+1}{x^2}e^{-t\, x}(1-\cos x)} \le M \frac{1-\cos x}{x^2},
+	\]
+	che è integrabile.
+	Per cui \(g\) è continua in \(0\) e vale
+	\[
+		\lim_{t\to 0^+} g(t) = g(0) = \lim_{R\to +\infty}\int_0^R \frac{\sin x}{x}\,\dd x = \int_0^{+\infty} \frac{\sin x}{x}\,\dd x.
+	\]
+	Quindi se conoscessimo \(g(t)\) per \(t>0\), passando al limite otterremo l'integrale cercato.
+	La conclusione di questo esempio verrà discussa nel prossimo paragrafo.
+\end{ese}
+%%%%%%%%%%%%%%%
+%DERIVABILITA'%
+%%%%%%%%%%%%%%%
+\section{Derivabilità}
+
+\begin{teor}{Derivata sotto segno di integrale}{derivataIntegrale}
+	Siano \(K\subseteq \R^n\) un compatto P-J misurabile e \(\Omega \subseteq \R^m\) aperto.
+	Sia \(f\in C(K\times \Omega,\R)\) tale che \(\pd_{y_i}f\in C(K\times \Omega,\R)\) per \(1\le i \le m\).
+	Allora
+	\[
+		g\colon \Omega \to \R, y \mapsto \int\limits_K f(x,y)\,\dd x,
+	\]
+	è di classe \(C^1\) e vale
+	\[
+		g'(y) \cdot h = \int\limits_K \pd_y f(x,y) \cdot h\,\dd x.
+	\]
+\end{teor}
+
+\begin{proof}
+	Basta mostrare che la derivata è data dall'ultima formula, in tal caso sarà continua per il teorema di continuità sotto segno di integrale, in quanto \(K\) è compatto e \(\pd_y f\) è continua per ipotesi.
+	La strategia sarà dimostrare la continuità di ogni componente di \(g'(y)\) per poi applicare il teorema del differenziale totale ed ottenere la continuità della derivata totale.
+
+	Supponiamo quindi che \(\Omega \subseteq \R\). Per la definizione di derivata, dobbiamo mostrare che
+	\[
+		\abs*{g(y+h)-g(y)-\int\limits_K \pd_y f(x,y) h\,\dd x} = o(\abs{h}).
+	\]
+	Sfruttiamo il teorema del valore medio di Lagrange.
+	Ricordiamo che in generale, presa una funzione \(h\colon U \to \R\) con \(U\subseteq \R^n\) e presi \(a,b \in U\) tali che il segmento che congiunge \(a,b\) è tutto contenuto in \(U\), vale
+	\[
+		h(b)-h(a) = h'\big(a+\q(b-a)\big)\cdot (b-a) \qquad\text{con }\q\in[0,1].
+	\]
+	Per cui, nel nostro caso monodimensionale,
+	\[
+		\begin{split}
+			\abs*{g(y+h)-g(y)-\int\limits_K \pd_y f(x,y) h\,\dd x} & = \abs*{\int\limits_K f(x,y+h)\,\dd x-\int\limits_K f(x,y)\,\dd x-\int\limits_K \pd_y f(x,y) h\,\dd x}\\
+			& \le \int\limits_K \abs*{f(x,y+h)-f(x,y)-\pd_y f(x,y) h}\,\dd x\\
+			& = \int\limits_K \abs*{\pd_y f(x,y+\q\,h) h - \pd_y f(x,y) h}\,\dd x.
+		\end{split}
+	\]
+	Sappiamo che \(\pd_y f\) è continua su \(K\times \Omega\) pertanto sarà uniformemente continua su \(K \times \overline{B_r(y)}\).
+	Preso \(\abs{h}\le\d\) avremo
+	\[
+		\abs*{\pd_y f(x,y+\q\,h)h-\pd_y f(x,y)h} = \abs*{\pd_y f(x,y+\q\,h)-\pd_y f(x,y)}\abs{h} \le \e \abs{h}.
+	\]
+	Da cui
+	\[
+		\int\limits_K \abs*{\pd_y f(x,y+\q\,h) h - \pd_y f(x,y) h}\,\dd x \le \int\limits_K \e \abs{h}\,\dd x = \e \abs{K}\abs{h} = o\big(\abs{h}\big).\qedhere
+	\]
+\end{proof}
+
+\begin{oss}
+	Nell'espressione
+	\[
+		g'(y) \cdot h = \int\limits_K \pd_y f(x,y) \cdot h\,\dd x,
+	\]
+	abbiamo \(g'(y)\in (\R^m)^*, h\in R^m\) e
+	\[
+		\int\limits_K \pd_y f(x,y) \cdot h\,\dd x = \left( \int\limits_K \pd_{y_1}f(x,y)\,\dd x, \ldots, \int\limits_K \pd_{y_m} f(x,y)\,\dd x \right)
+		\begin{pmatrix}
+			h_1    \\
+			\vdots \\
+			h_m
+		\end{pmatrix}
+	\]
+\end{oss}
+
+\begin{teor}{Derivata sotto segno di integrale (caso generale)}{derivataIntegraleGenerale}
+	Siano \(A \subseteq \R^n\), anche non limitato, P-J misurabile e \(\Omega \subseteq \R^m\) aperto.
+	Sia \(f\in C(A\times \Omega, \R)\) e tale che \(\pd_{y_i}f(x,y)\in C(K \times \Omega, \R)\) per \(1\le i\le m\).
+	Supponiamo che \(f(x,y)\) sia integrabile su \(A\) per ogni \(y\in \Omega\) e
+	\[
+		\abs*{\pd_{y_i}f(x,y)} \le h(x),\,\fa x \in A,y \in \Omega,\,\fa i \in (1,\ldots,m),
+	\]
+	con \(h\colon A \to [0,+\infty)\) integrabile.
+	Allora
+	\[
+		g\colon \Omega \to \R, y \mapsto \int\limits_A f(x,y)\,\dd x,
+	\]
+	è di classe \(C^1\) e vale
+	\[
+		\pd_{y_i} g(y) = \int\limits_A \pd_{y_i} f(x,y)\,\dd x.
+	\]
+\end{teor}
+
+\begin{proof}
+	Non fornita.
+\end{proof}
+
+\begin{ese}
+	Concludiamo l'esempio del paragrafo precedente cercando di capire chi è
+	\[
+		g(t)= \int_0^{+\infty} e^{-t\,x} \frac{\sin x}{x}\,\dd x.
+	\]
+	Affermo che \(g'(t)\) esiste per ogni \(t>0\). Verifichiamolo tramite le ipotesi del teorema:
+	\begin{itemize}
+		\item L'integrabilità di \(f\) è già stata verificata nella parte precedente dell'esempio.
+		\item Dobbiamo trovare la maggiorazione uniforme di \(\pd_t f\):
+		      \[
+			      \abs*{\pd_t \left( e^{-t\,x} \frac{\sin x}{x} \right)} = \abs*{e^{-t\,x}\sin x} \le e^{-\frac{t_0}{2}x} \qquad\text{per }t\in \left[\frac{t_0}{2},+\infty\right).
+		      \]
+	\end{itemize}
+	Quindi \(g\) è di classe \(C^1\) e vale
+	\[
+		g'(t) = -\int_0^{+\infty} e^{-t\,x} \sin x\,\dd x,
+	\]
+	il quale, svolto per parti, trova
+	\[
+		g'(t) = -\frac{1}{1+t^2},
+	\]
+	ovvero \(g(t)= c-\arctan t\).
+	Da \(g(+\infty)= 0\) segue \(g(t)=\frac{\p}{2}-\arctan t\), quindi
+	\[
+		\int_0^{+\infty} \frac{\sin x}{x}\,\dd x = g(0) = \frac{\p}{2}.
+	\]
+\end{ese}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 05/04/2016 - SETTIMA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{ese}
+	Si calcoli
+	\[
+		F(x) = \int_x^{x^2} e^{-(x-t)^2}\,\dd t.
+	\]
+	Osserviamo che in questo caso il dominio varia con \(x\).
+	Introduciamo
+	\[
+		G(a,b,x) = \int_a^b e^{-(x-t)^2}\,\dd t,
+	\]
+	avremo quindi \(F(x)=G(x,x^2,x)\).
+	Riassumendo \(F\) risulta la composizione
+	\[
+		\R \to \R^3 \to \R, x\mapsto (x,x^2,x) \mapsto G(x,x^2,x).
+	\]
+	In particolare
+	\[
+		F'(x) = G'(x,x^2,x) \begin{pmatrix}
+			1  \\
+			2x \\
+			1
+		\end{pmatrix}
+	\]
+	dove
+	\[
+		\begin{split}
+			G'(x,x^2,x) & = \big( \pd_a G|_{(x,x^2,x)}, \pd_b G|_{(x,x^2,x)}, \pd_x G|_{(x,x^2,x)}\big)\\
+			& = \left(-e^{-(x-a)^2}|_{(x,x^2,x)}, e^{-(x-b)^2}|_{(x,x^2,x)}, \int_a^b -2(x-t) e^{-(x-t)^2}\,\dd t|_{(x,x^2,x)} \right)\\
+			& = \left(-1,e^{-(x-x^2)^2},\int_x^{x^2} -2(x-t) e^{-(x-t)^2}\,\dd t\right) 	\begin{pmatrix}
+				1  \\
+				2x \\
+				1
+			\end{pmatrix}
+		\end{split}
+	\]
+	da cui è possibile calcolare la primitiva.
+\end{ese}

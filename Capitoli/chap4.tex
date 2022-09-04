@@ -1,0 +1,572 @@
+%!TEX root = ../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 05/04/2016 - SETTIMA SETTIMANA (1)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Curve e integrali curvilinei}
+%%%%%%%%%%%%%%
+%INTRODUZIONE%
+%%%%%%%%%%%%%%
+\section{Introduzione}
+
+\begin{defn}{Curva}{curva}\index{Curva}
+	Sia \(I\subseteq\R\) un intervallo.
+	Una \emph{curva} in \(\R^n\) si definisce come una mappa continua
+	\[
+		\j\colon I\to \R^n.
+	\]
+\end{defn}
+
+\begin{oss}
+	L'intervallo \(I\) può essere chiuso, aperto, limitato o illimitato.
+\end{oss}
+
+\begin{defn}{Curva semplice}{curvaSemplice}\index{Curva!semplice}
+	Una curva \(\j\) su \(I\) si dice semplice se per ogni coppia di punti interni \(t_1,t_2\in \mathring{I}\) vale \(\j(t_1)\neq\j(t_2)\).
+\end{defn}
+
+\begin{defn}{Curva chiusa}{curvaChiusa}\index{Curva!chiusa}
+	Una curva \(\j\) su \(I\) si dice \emph{chiusa} se \(I=[a,b]\) con \(-\infty<a<b<+\infty\) e \(\j(a)=\j(b)\).
+\end{defn}
+
+\begin{ese}
+	La circonferenza \(S^1\) è sia semplice che chiusa.
+	Infatti se consideriamo la curva
+	\[
+		\j\colon [0,2\p] \to \R^2, t \mapsto 	\begin{pmatrix}
+			\cos t \\
+			\sin t
+		\end{pmatrix}
+	\]
+	\(\j\) è chiusa poiché \(\j(0)=\j(2\p)\), inoltre è semplice in quanto
+	\[
+		\j(t_1)\neq \j(t_2),\,\fa 0<t_1<t_2<2\p.
+	\]
+\end{ese}
+
+\begin{ese}\index{Elica cilindrica}
+	L'elica cilindrica
+	\[
+		\j\colon \R \to \R^3, t \mapsto \begin{pmatrix}
+			\cos t \\
+			\sin t \\
+			t
+		\end{pmatrix}
+	\]
+	è iniettiva e semplice.
+\end{ese}
+
+\begin{ese}\index{Strofoide}
+	Consideriamo lo strofoide
+	\[
+		\j\colon \R \to \R^2, t \mapsto \begin{pmatrix}
+			t^3-t \\
+			t^2-1
+		\end{pmatrix}
+	\]
+	Osserviamo che \(\j\) non è semplice in quanto \(\j(1)=\j(-1)=(0,0)\).
+
+	Proviamo a ottenere una traccia della curva:
+	\[
+		\j_x(t)>0 \iff t(t^2-1) > 0 \iff -1<t<0 \vee t>1,
+	\]
+	analogamente
+	\[
+		\j_y(t) > 0 \iff t^2-1 >0 \iff t^2 < -1 \vee t>1.
+	\]
+	Queste considerazioni ci forniscono delle informazioni con cui otteniamo il grafico in figura \ref{fig:strofoide}.
+\end{ese}
+
+\begin{figure}[tp]
+	\begin{centering}
+		\includegraphics[height = 75mm]{strofoide.pdf}
+		\caption{Una traccia dello strofoide.}
+		\label{fig:strofoide}
+	\end{centering}
+\end{figure}
+
+\begin{defn}{Tangente alla curva}{tangenteCurva}\index{Tangente alla curva}
+	Sia \(\j\) una curva su \(I\).
+	Supponiamo che \(\j\) è differenziabile in \(t_0\in\mathring{I}\) e che \(\j'(t_0)\neq 0\).
+	Diremo che \(\j'(t_0)\) è il \emph{vettore tangente} alla curva in \(t_0\) e che
+	\[
+		\y\colon \l \mapsto \j(t_0)+\j'(t_0)\,\l
+	\]
+	è la \emph{retta tangente} alla curva in \(t_0\).
+\end{defn}
+
+\begin{oss}
+	La definizione è ben posta in quanto \(\y(0)=\j(t_0)\) e \(\y'(0)=\j'(t_0)\).
+\end{oss}
+
+\begin{defn}{Curva regolare}{curvaRegolare}\index{Curva!regolare}
+	Una curva \(\j\) su \(I\) di classe \(C^1\) si dice \emph{regolare} se è semplice e se \(\j'(t)\) è non nullo su tutto \(I\).
+\end{defn}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%CURVE PARAMETRICHE IN GRAFICI%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Curve parametriche in grafici}
+
+In questo paragrafo ci occuperemo di stabilire quando una curva parametrica può essere espressa sotto forma di grafico e viceversa.
+
+Consideriamo ad esempio la circonferenza in forma parametrica \(\j\colon t\mapsto (\cos t,\sin t)\).
+Sappiamo che localmente essa può essere scritta come grafico tramite l'applicazione \(\y\colon x \mapsto (x,\sqrt{1-x^2})\), ovvero
+\[
+	\set{(x,y) | y\ge 0, x^2+y^2 = 1} = \Set{(x,y) | -1\le x \le 1, y=\sqrt{1-x^2}}.
+\]
+
+\begin{teor}{Rappresentazione in forma cartesiana implicita}{rapprCartesianaImplicita}
+	Sia \(\j\colon [a,b]\to \R^n\) una curva di classe \(C^1\) regolare con \(a<b\) finiti.
+	Allora, per ogni \(t_0\in(a,b)\) esiste \(r>0\) tale che
+	\[
+		\j\big([a,b]\big) \cap B_r\big(\j(t_0)\big)
+	\]
+	è il grafico di una mappa \(\y\colon \R \to \R^{n-1}\) di classe \(C^1\).
+\end{teor}
+
+\begin{proof}
+	La dimostrazione si articola in due passaggi. Il primo, di carattere topologico, in cui andremo a dimostrare che
+	\[
+		\fa \d>0\,\ex r>0 : \j(I) \cap B_r\big(\j(t_0)\big) \subseteq \j\big((t_0-\d,t_0+\d)\big).
+	\]
+	Il secondo, che sfrutta il teorema della funzione inversa, in cui dimostreremo che \(\j\big((t_0-\d,t_0+\d)\big)\) è un grafico.
+
+	Supponiamo per assurdo che
+	\[
+		\ex \d>0:\,\fa n>0, B_{\frac{1}{n}}\big(\j(t_0)\big) \cap \j(I) \not\subseteq \j\big((t_0-\d,t_0+\d)\big),
+	\]
+	cioè che per ogni \(n\) esista \(t_n\notin (t_0-\d,t_0+\d)\) tale che \(\j(t_n)\in B_{\frac{1}{n}}\big(\j(t_0)\big)\).
+	Ora \([a,b]\) è compatto, posso quindi supporre, a meno di sotto successioni, che \(t_n \to \bar{t}\in I\setminus(t_0-\d,t_0+\d)\).
+	Inoltre \(\j(t_n)\in B_{\frac{1}{n}}\big(\j(t_0)\big)\implies \j(t_n) \to \j(t_0)\).
+	Del resto \(\j\) è continua e \(t_n\to \bar{t}\), quindi \(\j(t_n)\to \j(\bar{t})\); ovvero \(\j(\bar{t})=\j(t_0)\).
+	Ma \(\bar{t}\in I \setminus(t_0-\d,t_0+\d)\implies t_0\neq \bar{t}\).
+	Ciò è assurdo in quanto la curva è semplice.
+
+	Per ipotesi \(\j'(t_0)\neq 0\), dove
+	\[
+		\j'(t_0) = 	\begin{pmatrix}
+			\j_1'(t_0) \\
+			\dots      \\
+			\j_n'(t_0)
+		\end{pmatrix}
+	\]
+	ciò significa che almeno una componete \(\j_i'(t_0)\) è non nulla.
+	Supponiamo per semplicità che \(\j_1'(t_0)\neq 0\) e, a meno di cambiare il segno, supponiamo che \(\j_1'(t_0)>0\).
+	Quindi avremo
+	\[
+		\j_1\colon (t_0-\d,t_0+\d) \to \R, \j_1 \in C^1, \j_1'(t_0)>0.
+	\]
+	Se \(\d\) è sufficientemente piccolo \(\j_1\) è invertibile sull'immagine per il teorema della funzione inversa.
+	Poniamo quindi \(g=\j_1^{-1}\) per ottenere che \(\j\big((t_0-\d,t_0+\d)\big)\) è il grafico di
+	\[
+		\y\colon x_1 \to \big(\j_2 \circ g(x_1),\j_3 \circ g(x_1),\ldots, \j_n \circ g(x_1)\big),
+	\]
+	ovvero
+	\[
+		\j\big((t_0-\d,t_0+\d)\big) = \Set{\big(x_1,\y(x_1)\big) | x_1 \in (t_0-\d,t_0+\d)}.\qedhere
+	\]
+\end{proof}
+
+\begin{oss}
+	Sul bordo, se \(\j(a)=\j(b)\) e \(\j'(a)=\j'(b)\), il teorema vale lo stesso.
+\end{oss}
+
+\begin{oss}
+	Il teorema è locale. Abbiamo già visto come la circonferenza sia solo localmente un grafico.
+\end{oss}
+
+\begin{oss}
+	Il teorema è falso se la curva non è semplice.
+	Ad esempio lo strofoide in un intorno dell'origine non è il grafico di nessuna funzione di \(x\) o di \(y\).
+\end{oss}
+
+\begin{oss}
+	Se \(\j'(t)=0\) per qualche \(t\), il grafico non è di classe \(C^1\).
+	Ad esempio \(\j(t) = (t^3,t^2)\) è di classe \(C^1\), iniettiva ma in \(\j(0)=0\) si ha \(\j'(0)=0\).
+	Infatti la funzione grafico \(y(x)=\abs{x}^{2/3}\) non è di classe \(C^1\).
+\end{oss}
+
+\begin{oss}
+	Il teorema è falso se l'intervallo non è compatto.
+	Ad esempio
+	\[
+		\j\colon (0,2] \to \R^2, t\mapsto 	\begin{cases}
+			\left(t,\sin \frac{1}{t}\right)  & \text{se }t\in (0,1] \\
+			\text{raccordo con l'asse \(y\)} & \text{se }t\in [1,2]
+		\end{cases}
+	\]
+	non è il grafico di nessuna funzione.
+\end{oss}
+%%%%%%%%%%%%%%%%%%%%%%%
+%LUNGHEZZA DELLA CURVA%
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lunghezza delle curve}
+
+\begin{defn}{Lunghezza della curva}{lunghezzaCurva}\index{Lunghezza della curva}
+	Sia \([a,b]\) un intervallo compatto e sia \(\j\colon [a,b]\to \R^n\) continua.
+	Associamo ad ogni partizione
+	\[
+		\mathcal{P} = \Set{t_0 = a < t_1 < t_2 < \ldots < t_p = b},
+	\]
+	la lunghezza
+	\[
+		L(\mathcal{P}) = \sum_{i=1}^p \abs*{\j(t_i)-\j(t_{i-1})}.
+	\]
+	Si definisce \emph{lunghezza} della curva \(\j\) l'estremo superiore delle lunghezze su tutte le partizioni di \([a,b]\), ovvero
+	\[
+		L(\j) = \sup_\mathcal{P} L(\mathcal{P}).
+	\]
+\end{defn}
+
+\begin{notz}
+	Se \(L(\j)<+\infty\) diremo che la curva \(\j\) è \emph{rettificabile}.
+\end{notz}
+
+\begin{ese}
+	Non tutte le curve sono rettificabili, consideriamo ad esempio
+	\[
+		\j\colon \left[0,\frac{1}{\p}\right] \to \R^2, t \mapsto 	\begin{cases}
+			\left(t,t\,\cos \frac{1}{t}\right) & t\in\left(0,\frac{1}{\p}\right] \\
+			0                                  & t=0
+		\end{cases}
+	\]
+	che è per definizione continua.
+
+	Come partizione considero \(\mathcal{P}=\Set{0,\frac{1}{n\,\p},\frac{1}{(n-1)\p},\ldots,\frac{1}{\p}}\).
+	In generale vale
+	\[
+		\abs*{\j(t_i)-\j(t_{i-1})} \ge \abs*{\j_y (t_i)-\j_y (t_{i-1})},
+	\]
+	per cui
+	\[
+		\begin{split}
+			L(\mathcal{P}) & = \abs*{\j \left( \frac{1}{\p} \right) - \j \left( \frac{1}{2\p} \right)} + \abs*{\j \left( \frac{1}{2\p} \right) - \j \left( \frac{1}{3\p} \right)} + \ldots\\
+			& +\abs*{\j \left( \frac{1}{(n-1)\p} \right) - \j \left( \frac{1}{n\p} \right)}\\
+			& \ge \left( \frac{1}{\p} + \frac{1}{2\p} \right)+\left( \frac{1}{2\p} + \frac{1}{3\p} \right) + \ldots + \left( \frac{1}{(n-1)\p} + \frac{1}{n\,\p} \right),
+		\end{split}
+	\]
+	ovvero, tralasciando i termini che compaiono una volta sola,
+	\[
+		\begin{split}
+			L(\mathcal{P}) & = \sum_{i=1}^n \abs*{\j(t_i)-\j(t_{i-1})} \ge 2 \left( \frac{1}{2\p}+\ldots+\frac{1}{n\,\p}\right)\\
+			& = \frac{2}{\p}\left( 1+\ldots+\frac{1}{n} \right) \to +\infty.
+		\end{split}
+	\]
+\end{ese}
+
+\begin{teor}{Condizione per rettificare}{condizioneRettificare}
+	Sia \(\j\colon [a,b]\to \R^n\) una curva di classe \(C^1\).
+	Allora \(\j\) è rettificabile e vale
+	\[
+		L(\j) = \int_a^b \norma*{\j'(t)}\,\dd t.
+	\]
+\end{teor}
+
+\begin{proof}
+	\([a,b]\) è compatto e \(\j\) è di classe \(C^1\), quindi \(\norma*{\j'}\) è chiaramente integrabile su \([a,b]\).
+	Per dimostrare il teorema è quindi sufficiente mostrare che vale l'uguaglianza:
+
+	\graffito{\(\le)\)}Consideriamo una generica partizione \(\mathcal{P}=\Set{t_0=a<t_1<\ldots<t_p=b}\), dobbiamo dimostrare che
+	\[
+		L(\mathcal{P}) \le \int_a^b \norma*{\j'(t)}\,\dd t.
+	\]
+	Applicando la definizione
+	\[
+		\begin{split}
+			L(\mathcal{P}) & = \sum_{i=1}^p \norma*{\j(t_i) - \j(t_{i-1})} \overset{\text{TFC}}{=} \sum_{i=1}^p \norma*{\int_{t_{i-1}}^{t_i} \j'(s)\,\dd s}\\
+			& \le \sum_{i=1}^p \int_{t_{i-1}}^{t_i} \norma*{\j'(s)}\,\dd s = \int_a^b \norma*{\j'(s)}\,\dd s.
+		\end{split}
+	\]
+	\graffito{\(\ge)\)}\(\j'\) è continua sul compatto \([a,b]\) pertanto vi è uniformemente continua.
+	Dato \(\e>0\) trovo \(\d>0\) tale che \(\abs*{\j'(s)-\j'(t)}<\e\) quando \(\abs{t-s}<\d\).
+	Prendo quindi \(\mathcal{P}=\Set{t_0=a < t_1 < \ldots < t_p=b}\) con \(\abs{t_i-t_{i-1}}<\d\).
+	Ora
+	\[
+		\j(t_i)-\j(t_{i-1}) \overset{\text{TFC}}{=} \int_{t_{i-1}}^{t_i} \j'(t)\,\dd t = \int_{t_{i-1}}^{t_i} \j'(s)\,\dd t + \int_{t_{i-1}}^{t_i}\big[\j'(t)-\j'(s)\big]\,\dd t,
+	\]
+	con \(\j'(s)\) costante in \(t\) e \(s\in [t_{i-1},t_i]\).
+	Quindi
+	\[
+		\j(t_i)-\j(t_{i-1}) = \j'(s)(t_i-t_{i-1}) + \int_{t_{i-1}}^{t_i} \big[\j'(t)-\j'(s)\big]\,\dd t,
+	\]
+	da cui
+	\[
+		\j'(s) = \frac{\j(t_i)-\j(t_{i-1})}{t_i-t_{i-1}} + \frac{1}{t_i-t_{i-1}} \int_{t_{i-1}}^{t_i} \big[\j'(s)-\j'(t)\big]\,\dd t.
+	\]
+	Passo al modulo e ottengo
+	\[
+		\begin{split}
+			\norma*{\j'(s)} & \le \frac{\norma*{\j(t_i)-\j(t_{i-1})}}{t_i-t_{i-1}} + \frac{1}{t_i-t_{i-1}} \int_{t_{i-1}}^{t_i} \underbrace{\norma*{\j'(s)-\j'(t)}}_{\le \e \text{ poiché }\abs{s-t}<\d}\,\dd t\\
+			& \le \frac{\norma*{\j(t_i)-\j(t_{i-1})}}{t_i-t_{i-1}} + \e.
+		\end{split}
+	\]
+	Quindi
+	\[
+		\begin{split}
+			\int_a^b \norma*{\j'(s)}\,\dd s & = \sum_{i=1}^p \int_{t_{i-1}}^{t_i} \norma*{\j'(s)}\,\dd s \le \sum_{i=1}^p \int_{t_{i-1}}^{t_i} \left[\frac{\norma*{\j(t_i)-\j(t_{i-1})}}{t_i-t_{i-1}}+\e\right]\,\dd s\\
+			& = \sum_{i=1}^p \norma*{\j(t_i) - \j(t_{i-1})} + \e(b-a) = L(\j) + \e(b-a),
+		\end{split}
+	\]
+	con \(\e\) arbitrario, ovvero
+	\[
+		L(\j) \ge \int_a^b \norma*{\j'(s)}\,\dd s.\qedhere
+	\]
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%LEZIONE 06/04/2016 - SETTIMA SETTIMANA (2)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{ese}
+	Calcoliamo la lunghezza della circonferenza
+	\[
+		\j\colon [0,2\p] \to \R^2, \j(t) \to 	\begin{pmatrix}
+			\cos t \\
+			\sin t
+		\end{pmatrix}
+	\]
+	\(\j\) è ovviamente di classe \(C^1\), quindi per il teorema avremo
+	\[
+		L(\j) = \int_0^{2\p}\norma*{\j'(t)}\,\dd t = \int_0^{2\p} 1\,\dd t = 2\p.
+	\]
+\end{ese}
+
+\begin{ese}
+	Supponiamo che \(f\in C^1\big([a,b]\big)\), calcoliamo la lunghezza di
+	\[
+		\j\colon [a,b]\to \R^2, t\mapsto 	\begin{pmatrix}
+			t \\
+			f(t)
+		\end{pmatrix}
+	\]
+	Avremo
+	\[
+		L(\j) = \int_a^b \norma*{\j'(t)}\,\dd t = \int_a^b \sqrt{1+\big(f'(t)\big)^2}\,\dd t
+	\]
+\end{ese}
+
+\begin{teor}{Indipendenza della lunghezza dalle parametrizzazioni}{indipendenzaLunghezza}
+	Sia \(\j\colon [a,b] \to \R^n\) una curva e sia \(\y\colon [c,d]\to [a,b]\) continua e strettamente monotona, allora
+	\[
+		L(\j) = L(\j\circ\y).
+	\]
+\end{teor}
+
+\begin{proof}
+	Basta dimostrare che \(L(\j)\ge L(\j\circ\y)\), infatti la disuguaglianza opposta viene ponendo \(\tilde{\j}=\j\circ\y\) e \(\tilde{\y}=\y^{-1}\), infatti
+	\[
+		L(\tilde{\j})\ge L(\tilde{\j}\circ \tilde{\y}) \iff L(\j\circ \y)\ge L(\j).
+	\]
+	Per definizione
+	\[
+		L(\j\circ\y) = \sup_{\mathcal{P}} \sum_{i=1}^p \norma*{\j\circ\y (t_i)-\j\circ\y (t_{i-1})}.
+	\]
+	Dal momento che \(\y\) è monotona, supponiamo crescente, avremo
+	\[
+		a = \underbrace{\y(c)}_{\tilde{t}_0} < \underbrace{\y(t_1)}_{\tilde{t}_1} < \underbrace{\y(t_2)}_{\tilde{t}_2} < \ldots < \underbrace{\y(t_p)}_{\tilde{t}_p}=\y(d)=b.
+	\]
+	Inoltre \(\y\) è un omeomorfismo, quindi risulta che \(\tilde{\mathcal{P}} = \Set{a=\tilde{t}_0 < \ldots < \tilde{t}_p=b}\) è ancora una partizione.
+	Quindi
+	\[
+		L(\j\circ\y) \le \sup_{\tilde{\mathcal{P}}} \sum_{i=1}^p \norma*{\j(\tilde{t}_i)-\j(\tilde{t}_{i-1})} = L(\j).
+	\]
+	Dove la disuguaglianza vale dal momento che da una partizione di \([c,d]\) ottengo una di \([a,b]\) ma non posso dire a priori se è vero il viceversa.
+\end{proof}
+
+\begin{oss}
+	Se \(\y\) fosse stato anche differenziabile avremmo potuto usare il cambio di variabile, infatti:
+	\[
+		\begin{split}
+			L(\j\circ\y) & = \int_c^d \norma*{\frac{\dd}{\dd t}\j\circ\y(t)}\,\dd t = \int_c^d \norma*{\j'|_{\y(t)} \y'(t)}\,\dd t\\
+			& = \int_c^d \norma*{\j'\circ\y(t)} \abs{\y'(t)}\,\dd t,
+		\end{split}
+	\]
+	da cui, posto \(s=\y(t)\implies \dd s = \abs{\y'(t)}\,\dd t\), ottengo
+	\[
+		\int_a^b \norma*{\j'(s)}\,\dd s = L(\j).
+	\]
+\end{oss}
+
+\begin{ese}
+	Troviamo la lunghezza della curva in coordinate polari.
+	Sia
+	\[
+		\j\colon [a,b] \to (0,+\infty) \times S^1, t \mapsto 	\begin{pmatrix}
+			\r(t) \\
+			\q(t)
+		\end{pmatrix}
+	\]
+	Voglio dimostrare che se \(\j\) è di classe \(C^1\) allora vale
+	\[
+		L(\j) = \int_a^b \sqrt{\big(\r'(t)\big)^2+\r^2(t)\big(\q'(t)\big)^2}.
+	\]
+	In coordinate polari avremo
+	\[
+		\begin{pmatrix}
+			x(t) \\
+			y(t)
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\r(t)\cos\big(\q(t)\big) \\
+			\r(t)\sin\big(\q(t)\big)
+		\end{pmatrix}
+		\implies
+		\begin{pmatrix}
+			x'(t) \\
+			y'(t)
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\r'(t)\cos\big(\q(t)\big) - \r(t)\sin\big(\q(t)\big)\q'(t) \\
+			\r'(t)\sin\big(\q(t)\big) + \r(t)\cos\big(\q(t)\big)\q'(t)
+		\end{pmatrix}
+	\]
+	Quindi \(\sqrt{\big(x'(t)\big)^2+\big(y'(t)\big)^2} = \sqrt{\big(\r'(t)\big)^2+\r^2(t)\big(\q'(t)\big)^2}\), da cui
+	\[
+		L(\j) = \int_a^b \sqrt{\big(x'(t)\big)^2+\big(y'(t)\big)^2}\,\dd t = \int_a^b \sqrt{\big(\r'(t)\big)^2+\r^2(t)\big(\q'(t)\big)^2}\,\dd t.
+	\]
+\end{ese}
+
+\begin{ese}
+	Calcoliamo la lunghezza del cardioide espressa in coordinate polari
+	\[
+		\j\colon [0,2\p] \to (0,+\infty)\times S^1, t \mapsto 	\begin{pmatrix}
+			2(1+\cos t) \\
+			t
+		\end{pmatrix}
+	\]
+	Ora \(\r'(t)=-2\sin t\) e \(\q'(t)=1\), quindi, per quanto osservato nell'esercizio precedente,
+	\[
+		L(\j) = \int_0^{2\p} \sqrt{4\sin^2 t+4(1+\cos t)^2}\,\dd t = 2\sqrt{2} \int_0^{2\p} \sqrt{1+\cos t}\,\dd t.
+	\]
+\end{ese}
+
+\begin{ese}
+	Si dimostri che la curva
+	\[
+		\j\colon [-1,1] \to \R^2, t \mapsto 	\begin{pmatrix}
+			\frac{1-t^2}{1+t^2} \\
+			\frac{2t}{1+t^2}
+		\end{pmatrix}
+	\]
+	parametrizza \(S^1 \cap \Set{(x,y) | x\ge 0}\).
+
+	Osserviamo che
+	\[
+		\norma*{\j(t)}^2 = \frac{(1+t^2)^2}{(1+t^2)^2} = 1.
+	\]
+	Inoltre ricordiamo la ben nota sostituzione
+	\[
+		t = \tan \frac{x}{2} \implies 	\begin{cases}
+			\cos x = \frac{1-t^2}{1+t^2} \\
+			\sin x = \frac{2t}{1+t^2}
+		\end{cases}
+	\]
+	Da cui si giunge facilmente alla tesi.
+\end{ese}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%INTEGRALE DI UNA FUNZIONE SU UNA CURVA%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Integrale di una funzione su una curva}
+
+Si consiglia la visione di \url{https://upload.wikimedia.org/wikipedia/commons/4/42/Line_integral_of_scalar_field.gif} per un'interpretazione grafica dell'integrale di linea.
+
+\begin{defn}{Integrale di una funzione su una curva}{integraleFunzioneCurva}\index{Integrale!su una curva}
+	Sia \(\j\colon [a,b] \to \R^n\) una curva di classe \(C^1\) e sia \(f\colon Im(\j) \to \R\) una funzione continua.
+	Definiamo l'integrale di \(f\) su \(\j\) come
+	\[
+		\int\limits_\j f\,\dd s = \int_a^b f\big(\j(t)\big) \norma*{\j'(t)}\,\dd t.
+	\]
+\end{defn}
+
+\begin{notz}
+	Con il termine \(\dd s\) si indica che l'integrale è effettuato su un'ascissa curvilinea.
+\end{notz}
+
+\begin{oss}
+	\(Im(\j)\in\R^n\) è compatto in quanto immagine continua di un compatto.
+\end{oss}
+
+\begin{oss}
+	Se \(f\equiv 1\) ritroviamo la definizione di lunghezza di una curva.
+\end{oss}
+
+\begin{teor}{Indipendenza dell'integrale dalle parametrizzazioni}{indipendenzaIntegrale}
+	Sia \(\j\colon [a,b] \to \R^n\) una curva di classe \(C^1\) e sia \(f\colon Im(\j) \to \R\) una funzione continua.
+	Se \(\y\colon [c,d]\to [a,b]\) è una mappa di classe \(C^1\) invertibile, allora
+	\[
+		\int\limits_\j f\,\dd s = \int\limits_{\j\circ\y} f\,\dd s.
+	\]
+\end{teor}
+
+\begin{proof}
+	La dimostrazione è analoga a quella fatta per l'indipendenza della lunghezza di una curva rispetto alla parametrizzazione.
+	Infatti
+	\[
+		\begin{split}
+			\int\limits_{\j\circ\y} f\,\dd s & = \int_c^d f\big(\j\circ\y(t)\big) \norma*{\frac{\dd}{\dd t}\j\circ\y(t)}\,\dd t\\
+			& = \int_c^d f\big(\j\circ\y(t)\big)\norma*{\j'|_{\y(t)}}\abs*{\y'(t)}\,\dd t\graffito{pongo \(s=\y(t),\dd s=\abs*{\y'(t)}\,\dd t\)}\\
+			& = \int_a^b f\big(\j(s)\big) \norma*{\j'(s)}\,\dd s\\
+			& = \int\limits_\j f\,\dd s.\qedhere
+		\end{split}
+	\]
+\end{proof}
+
+\begin{ese}\index{Spirale logaritmica}
+	Consideriamo la spirale logaritmica espressa in coordinate polari
+	\[
+		\j\colon \left[0,\frac{\p}{4}\right] \to (0,+\infty) \times S^1, \q \mapsto \begin{pmatrix}
+			e^{a\,\q} \\
+			\q
+		\end{pmatrix},
+		a>0.
+	\]
+	Una proprietà interessante è che l'angolo della tangente alla curva con il raggio non dipende da \(\q\).
+	Dimostriamolo:
+	\[
+		\begin{pmatrix}
+			x(\q) \\
+			y(\q)
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			e^{a\,\q}\cos \q \\
+			e^{a\,\q}\sin \q
+		\end{pmatrix}
+		\implies
+		\begin{pmatrix}
+			x'(\q) \\
+			y'(\q)
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			a\,e^{a\,\q}\cos\q- e^{a\,\q}\sin \q \\
+			a\,e^{a\,\q}\sin\q + e^{a\,q}\cos\q
+		\end{pmatrix}
+	\]
+	da cui
+	\[
+		\begin{split}
+			\cos \a(\q) & = \frac{\Braket{\norma*{\begin{pmatrix}x(t)\\y(t)\end{pmatrix}},\norma*{\begin{pmatrix}x'(t)\\y'(t)\end{pmatrix}}}}{\norma*{\begin{pmatrix}x(t)\\y(t)\end{pmatrix}}\norma*{\begin{pmatrix}x'(t)\\y'(t)\end{pmatrix}}}\\
+			& = \dots\\
+			& = \frac{\a}{\sqrt{1+\a^2}}.
+		\end{split}
+	\]
+\end{ese}
+
+\begin{oss}
+	Questo risultato può essere applicato al problema dei quattro cani ai vertici di un quadrato di lato \(1\) che si rincorrono con velocità unitaria.
+	Il tempo percorso prima della collisione è \(T=\frac{1}{1}=1\).
+	Se vogliamo la traiettoria dobbiamo osservare che il cane percorre una spirale logaritmica di raggio \(\frac{\p}{4}\).
+	Possiamo quindi trovare il parametro
+	\[
+		\begin{split}
+			a & : \frac{\sqrt{2}}{2} = \cos \a = \frac{\a}{\sqrt{1+\a^2}}\\
+			& \implies \frac{1}{2} = \frac{\a^2}{1+\a^2}\\
+			& \implies a^2+1 = 2a^2\\
+			& \implies a^2 = 1 \implies a=-1.
+		\end{split}
+	\]
+\end{oss}
